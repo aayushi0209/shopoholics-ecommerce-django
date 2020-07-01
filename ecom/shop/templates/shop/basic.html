@@ -1,0 +1,160 @@
+<!--*******************************************DISPLAYYY*************************************************************-->
+<!---->
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+      <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
+
+    <title>{% block title %} {% endblock %}</title>
+<!--navbar effects-->
+<style type="text/css">
+  nav ul li a{
+    color: white;
+    text-decoration: none;
+    font-size: 23px;
+    display: block;
+    padding: 6px 3px;
+    overflow: hidden;
+  }
+    ul li .menu .f-word,ul li .menu .s-word{
+      display: inline-block;
+      position: relative;
+      transition:  transform .3s;
+    }
+    ul li .menu .s-word{
+      margin-left: -5px;
+    }
+    ul li .menu .f-word::before,
+    ul li .menu .s-word::before{
+      position: absolute;
+      content: attr(data-hover);
+    }
+    ul li .menu .f-word::before{
+      color: white;
+      top:110%;
+    }
+    ul li .menu .s-word::before{
+      color:white;
+      bottom: 110%;
+
+    }
+    a:hover .f-word{
+      transform: translate3d(0,-110%,0);
+    }
+     a:hover .s-word{
+      transform: translate3d(0,110%,0);
+    }
+</style>
+
+    <!--navbar effects over -->
+    <style>
+        {% block css %} {% endblock %}
+    </style>
+  </head>
+  <body>
+    {% load static %}
+
+    <!-- Navbar   -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed">
+        <a class="navbar-brand" href="/shop">SHOPOHOLICS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+              <a class="nav-link" href="/shop">
+                  <span class="menu">
+        <span class="f-word" data-hover="Ho">Ho</span>
+        <span class="s-word" data-hover="me">me</span>
+                  </span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/shop/about">
+                  <span class="menu">
+        <span class="f-word" data-hover="About">About</span>
+        <span class="s-word" data-hover="Us">Us</span>
+      </span>
+              </a>
+            </li>
+              <li class="nav-item">
+              <a class="nav-link" href="/shop/contact">
+                  <span class="menu">
+        <span class="f-word" data-hover="Contact">Contact</span>
+        <span class="s-word" data-hover="Us">Us</span>
+      </span></a>
+            </li>
+
+             <li class="nav-item">
+              <a class="nav-link" href="/shop/tracker">
+                  <span class="menu">
+        <span class="f-word" data-hover="Trac">Trac</span>
+        <span class="s-word" data-hover="ker">ker</span>
+      </span>
+              </a>
+             </li>
+          </ul>
+          <form class="form-inline m-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+          </form>
+            <button type="button" class="btn btn-dark" id="popcart" data-toggle="tooltip" data-placement="bottom"  data-html="true" title="cart">
+Cart(<span id="cart">0</span>)
+         </button>
+        </div>
+     </nav>
+
+<!--***********************************************************************************************************************************************************-->
+        {% block body %} {% endblock %}
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!--    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    {% block js  %}
+         <script>
+                console.log('working');
+                if(localStorage.getItem('cart') == null){
+                var cart = {};
+                }
+                else
+                {
+                cart = JSON.parse(localStorage.getItem('cart'));
+                document.getElementById('cart').innerHTML = Object.keys(cart).length;
+                }
+                $('.cart').click(function(){
+                console.log('clicked');
+                var idstr = this.id.toString();
+                console.log(idstr);
+                if (cart[idstr] !=undefined){
+                cart[idstr] = cart[idstr] + 1;
+                }
+                else
+                {
+                cart[idstr] = 1;
+                }
+                console.log(cart);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                document.getElementById('cart').innerHTML = Object.keys(cart).length;
+                });
+                $('#popcart').popover();
+                document.getElementById("popcart").setAttribute('data-content', '<h5>Cart for your items in my shopping cart</h5>');
+         </script>
+
+    {% endblock %}
+  </body>
+</html>
